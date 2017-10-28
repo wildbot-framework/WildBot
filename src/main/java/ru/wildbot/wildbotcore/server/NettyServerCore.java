@@ -206,6 +206,8 @@ package ru.wildbot.wildbotcore.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.DefaultChannelPromise;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import lombok.val;
@@ -244,15 +246,18 @@ public class NettyServerCore {
         Tracer.info("Netty Channel for name `" + name + "` has been successfully started");
     }
 
+    @SuppressWarnings("uncheked")
     public void shutdown() {
         childGroup.shutdownGracefully();
         parentGroup.shutdownGracefully();
 
         // Closing all channels existing
-        for (val channel : channels.values()) try {
-            channel.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            Tracer.error("An exception occurred while trying to stop Netty-Server. Aborting");
-        }
+        for (val channel : channels.values())
+            try {
+                channel.channel().close().addListener((ChannelFutureListener) channelFuture ->
+                        Tracer.info("Closed channel " + channel)).awaitUninterruptibly();
+            } catch (InterruptedException e) {
+                Tracer.error("An exception occurred while trying to stop Netty-Server. Aborting");
+            }
     }
 }
