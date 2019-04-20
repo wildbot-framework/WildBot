@@ -1,4 +1,5 @@
 # WildBot
+###### At current 2.0 branch us being built locally in order to provide its effective release ASAP
 [![Maven Central](https://img.shields.io/maven-central/v/ru.wildbot/wildbot-core.svg)](https://mvnrepository.com/artifact/ru.wildbot/wildbot-core) 
 [![Build Status](https://travis-ci.org/wildbot-framework/WildBot.svg?branch=master)](https://travis-ci.org/wildbot-framework/WildBot) 
 [![Docs Status](https://img.shields.io/readthedocs/pip.svg)](https://www.javadoc.io/doc/ru.wildbot/wildbot-core) 
